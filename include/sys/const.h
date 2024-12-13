@@ -296,5 +296,3 @@ enum msgtype {
 
 
 #endif /* _ORANGES_CONST_H_ */
-
-

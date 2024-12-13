@@ -21,7 +21,6 @@
 #include "proto.h"
 
 
-
 PUBLIC	struct proc proc_table[NR_TASKS + NR_PROCS];
 
 /* 注意下面的 TASK 的顺序要与 const.h 中对应 */
