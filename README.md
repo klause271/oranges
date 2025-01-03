@@ -7,6 +7,7 @@
 > 'make install'  
 > 'cd ..'  
 > 'bochs'
+
 3、在bochs中输入shift+f1~f3即可更换tty
 
 **注意事项**  
