@@ -16,12 +16,15 @@
 #include "proc.h"
 #include "global.h"
 #include "proto.h"
-
+#include "log.h"
+#include "syslog.h"
+static char buf[64];
 PRIVATE void block(struct proc* p);
 PRIVATE void unblock(struct proc* p);
 PRIVATE int  msg_send(struct proc* current, int dest, MESSAGE* m);
 PRIVATE int  msg_receive(struct proc* current, int src, MESSAGE* m);
 PRIVATE int  deadlock(int src, int dest);
+PRIVATE const char* get_syscall_name(int type);
 
 /*****************************************************************************
  *                                schedule
@@ -78,6 +81,20 @@ PUBLIC int sys_sendrec(int function, int src_dest, MESSAGE* m, struct proc* p)
 	mla->source = caller;
 
 	assert(mla->source != src_dest);
+	// 在系统调用执行前记录日志
+	if (system_ready && 
+		src_dest != TASK_LOG && 
+		m->type != LOG_MESSAGE) {
+		// 写入缓冲区
+		struct syscall_log* log = &syscall_logs[syscall_log_index];
+		strcpy(log->proc_name, p->name);
+		log->pid = caller;
+		strcpy(log->syscall_name, get_syscall_name(m->type));
+		log->ret = 0;
+		log->valid = 1;
+		
+		syscall_log_index = (syscall_log_index + 1) % MAX_SYSCALL_LOGS;
+	}
 
 	/**
 	 * Actually we have the third message type: BOTH. However, it is not
@@ -101,6 +118,23 @@ PUBLIC int sys_sendrec(int function, int src_dest, MESSAGE* m, struct proc* p)
 	}
 
 	return 0;
+	// 如果系统调用失败，记录错误
+	if (system_ready && 
+		src_dest != TASK_LOG && 
+		m->type != LOG_MESSAGE && 
+		ret != 0) {
+		// 写入缓冲区
+		struct syscall_log* log = &syscall_logs[syscall_log_index];
+		strcpy(log->proc_name, p->name);
+		log->pid = caller;
+		strcpy(log->syscall_name, get_syscall_name(m->type));
+		log->ret = ret;
+		log->valid = 1;
+		
+		syscall_log_index = (syscall_log_index + 1) % MAX_SYSCALL_LOGS;
+	}
+
+	return ret;
 }
 
 /*****************************************************************************
@@ -586,3 +620,159 @@ PUBLIC void dump_msg(const char * title, MESSAGE* m)
 		);
 }
 
+// 检查栈的返回地址
+PUBLIC int sys_checkstack()
+{
+	int i;
+	struct proc* p = proc_table;
+	// 遍历所有进程
+	for(i = 0; i < NR_TASKS + NR_PROCS; i++, p++)
+	{
+		if(p->p_flags == FREE_SLOT)	//如果进程未使用
+			continue;
+		u32 ebp = p->regs.ebp;
+		u32 retaddress_offset = ebp + 4;
+		u32 ss = p->regs.ss;
+		u32 base = reassembly(p->ldts[ss >> 3].base_high, 24,
+						  	  p->ldts[ss >> 3].base_mid, 16,
+						  	  p->ldts[ss >> 3].base_low);
+		u32 retaddr = *(u32*)(retaddress_offset + base);
+		if(i < NR_TASKS + NR_NATIVE_PROCS)
+		{
+			if(retaddr > (u32)task_stack)
+			{
+				printf("name:%s, detect stack overflow!\n", p->name);
+				printf("reaturn address:%x\n",retaddr);
+				assert(0);
+			}
+		}
+		else
+		{
+			//printf("name:%s,%x  %x\n", p->name, base,retaddr);
+			if(retaddr > 0x20420)
+			{
+				printf("name:%s, detect stack overflow!\n", p->name);
+				assert(0);
+			}
+		}
+	}
+	return 0;
+}
+
+PRIVATE const char* get_syscall_name(int type)
+{
+	switch(type) {
+		case 0:            return "MSG_INIT";
+		
+		// 硬件中断
+		case HARD_INT:      return "HARD_INT";
+		
+		// SYS任务相关
+		case GET_TICKS:     return "GET_TICKS";
+		case GET_PID:       return "GET_PID";
+		case GET_RTC_TIME:  return "GET_RTC_TIME";
+		
+		// 文件系统相关
+		case OPEN:          return "OPEN";
+		case CLOSE:         return "CLOSE";
+		case READ:          return "READ";
+		case WRITE:         return "WRITE";
+		case LSEEK:         return "LSEEK";
+		case STAT:          return "STAT";
+		case UNLINK:        return "UNLINK";
+		
+		// 进程控制相关
+		case SUSPEND_PROC:  return "SUSPEND_PROC";
+		case RESUME_PROC:   return "RESUME_PROC";
+		case EXEC:          return "EXEC";
+		case WAIT:          return "WAIT";
+		case FORK:          return "FORK";
+		case EXIT:          return "EXIT";
+		
+		// 系统调用返回
+		case SYSCALL_RET:   return "SYSCALL_RET";
+		
+		// 设备驱动相关
+		case DEV_OPEN:      return "DEV_OPEN";
+		case DEV_CLOSE:     return "DEV_CLOSE";
+		case DEV_READ:      return "DEV_READ";
+		case DEV_WRITE:     return "DEV_WRITE";
+		case DEV_IOCTL:     return "DEV_IOCTL";
+		
+		default:            
+			memset(buf, 0, sizeof(buf));
+			sprintf(buf, "UNKNOWN(%d)", type);
+			return buf;
+	}
+}
+
+PUBLIC int sys_manage_log(int operation, int param)
+{
+    switch(operation) {
+        case 1:  // enable level
+            enable_log_level(param);
+            break;
+        case 2:  // disable level
+            disable_log_level(param);
+            break;
+        case 3:  // enable category
+            enable_log_category(1 << (param-1));
+            break;
+        case 4:  // disable category
+            disable_log_category(1 << (param-1));
+            break;
+        case 5:  // disable all and clear logs
+            // 禁用所有日志级别和类别
+            log_level = 0;
+            log_categories = 0;
+            
+            // 清空所有日志缓冲区
+            for (int i = 0; i < MAX_SYSCALL_LOGS; i++) {
+                syscall_logs[i].valid = 0;
+            }
+            for (int i = 0; i < MAX_DEVICE_LOGS; i++) {
+                device_logs[i].valid = 0;
+            }
+            for (int i = 0; i < MAX_SWITCH_LOGS; i++) {
+                switch_logs[i].from_pid = 0;
+            }
+            break;
+        default:
+            return -1;
+    }
+    return 0;
+}
+
+
+
+/*****************************************************************************
+ *                             sys_canary_check
+ *****************************************************************************/
+
+PUBLIC void sys_canary_check() {
+    struct proc *p = p_proc_ready;
+	
+    // 只对用户进程检查
+    if (p - proc_table >= NR_TASKS + NR_NATIVE_PROCS) {
+        if (strcmp(p->name, "attack_stack") == 0) return;
+        if (canary_enabled == 0) return;
+        
+        int offset_canary = p->regs.ebp - 16;
+        int ss = p->regs.ss;
+        int base = reassembly(
+            p->ldts[ss >> 3].base_high, 24,
+            p->ldts[ss >> 3].base_mid, 16,
+            p->ldts[ss >> 3].base_low
+        );
+        unsigned int canary_address = offset_canary + base;
+        unsigned int canary = *(unsigned int *)(canary_address);
+
+
+        if (canary != 0xffffffff) {
+			printl("Stack overflow occurred in process\n");
+            //printl("Stack overflow occurred in process\n");
+			//printl("canary%x\n",canary);
+        }
+        return;
+    }
+}

@@ -18,8 +18,7 @@
 #include "console.h"
 #include "global.h"
 #include "proto.h"
-
-
+#include "log.h"
 /*****************************************************************************
  *                                clock_handler
  *****************************************************************************/
@@ -51,13 +50,21 @@ PUBLIC void clock_handler(int irq)
 		return;
 	}
 
-	
 	if (p_proc_ready->ticks > 0) {
 		return;
 	}
-
+	struct proc* p_proc_current = p_proc_ready;
 	schedule();
-
+	if (system_ready) {
+		// 直接写入环形缓冲区，不采用进程通信，因为我们在内核态
+		struct proc_switch_log* log = &switch_logs[switch_log_index];
+		strcpy(log->from_name, p_proc_current->name);
+		log->from_pid = proc2pid(p_proc_current);
+		strcpy(log->to_name, p_proc_ready->name);
+		log->to_pid = proc2pid(p_proc_ready);
+		
+		switch_log_index = (switch_log_index + 1) % MAX_SWITCH_LOGS;
+	}
 }
 
 /*****************************************************************************

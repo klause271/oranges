@@ -51,23 +51,29 @@ PUBLIC void task_sys()
 		switch (msg.type) {
 		case KILL_PROC: {
     			int pid = msg.PID;
-    			if (pid >= NR_TASKS && pid < NR_TASKS + NR_PROCS) {
-       				 struct proc* p = &proc_table[pid];
-        			if (p->p_flags != FREE_SLOT) {
-					
-            				p->p_flags = FREE_SLOT;  // 标记进程为无效
-            				clear_process(p,pid);        // 清理进程资源
-					
-            				msg.type = OK;           // 返回成功状态
-        			} else {
-           				 msg.type = ERROR;        // 目标进程已无效
-        			}
+
+    			// 只允许kill pid为6-8的进程
+    			if (pid < 6 || pid > 8) {
+        			msg.type = ERROR;  // 非法的PID
+        			send_recv(SEND, src, &msg);
+        			break;
+    			}
+
+    			struct proc* p = &proc_table[pid];
+
+   			 // 检查进程是否已被标记
+    			if (p->p_flags != FREE_SLOT) {
+        			p->p_flags = 0x03;  // 使用特殊标记隐藏该进程 (0x02 表示隐藏)
+        			msg.type = OK;      // 返回成功状态
     			} else {
-       				 msg.type = ERROR;            // 无效 PID
-   			}
-    			send_recv(SEND, src, &msg);      // 发送返回消息
+        			msg.type = ERROR;   // 已经是空槽
+    			}
+
+    			send_recv(SEND, src, &msg);
     			break;
 		}
+
+
 		case GET_TICKS:
 			msg.RETVAL = ticks;
 			send_recv(SEND, src, &msg);

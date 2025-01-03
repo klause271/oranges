@@ -97,15 +97,31 @@ PUBLIC void task_tty()
 
 		switch (msg.type) {
 		case DEV_OPEN:
+			syslog(LOG_LEVEL_INFO, LOG_CAT_DEVICE,
+                   "Process %s(PID:%d) opened TTY%d\n",
+                   proc_table[msg.source].name,
+                   msg.source,
+                   msg.DEVICE);
 			reset_msg(&msg);
 			msg.type = SYSCALL_RET;
 			send_recv(SEND, src, &msg);
 			break;
 		case DEV_READ:
-			tty_do_read(ptty, &msg);
-			break;
+            syslog(LOG_LEVEL_DEBUG, LOG_CAT_DEVICE,
+				"Process %s(PID:%d) reading from TTY%d\n",
+				proc_table[msg.source].name,
+				msg.source,
+				msg.DEVICE);
+            tty_do_read(ptty, &msg);
+            break;
 		case DEV_WRITE:
-			tty_do_write(ptty, &msg);
+            syslog(LOG_LEVEL_DEBUG, LOG_CAT_DEVICE,
+                   "Process %s(PID:%d) writing to TTY%d, size: %d\n",
+                   proc_table[msg.source].name,
+                   msg.source,
+                   msg.DEVICE,
+                   msg.CNT);
+            tty_do_write(ptty, &msg);
 			break;
 		case HARD_INT:
 			/**
@@ -348,6 +364,14 @@ PRIVATE void tty_do_read(TTY* tty, MESSAGE* msg)
  *****************************************************************************/
 PRIVATE void tty_do_write(TTY* tty, MESSAGE* msg)
 {
+	/* 在写入操作开始时记录日志 */
+    syslog(LOG_LEVEL_DEBUG, LOG_CAT_DEVICE,
+           "Process %s(PID:%d) writing to TTY%d, size: %d\n",
+           proc_table[msg->source].name,
+           msg->source,
+           tty - tty_table,
+           msg->CNT);
+	
 	char buf[TTY_OUT_BUF_LEN];
 	char * p = (char*)va2la(msg->PROC_NR, msg->BUF);
 	int i = msg->CNT;
@@ -454,7 +478,7 @@ PUBLIC int sys_printx(int _unused1, int _unused2, char* s, struct proc* p_proc)
 		/* TTY * ptty; */
 		/* for (ptty = TTY_FIRST; ptty < TTY_END; ptty++) */
 		/* 	out_char(ptty->console, ch); /\* output chars to all TTYs *\/ */
-		out_char(TTY_FIRST->console, ch);
+		out_char((TTY_FIRST + current_console)->console, ch);
 	}
 
 	//__asm__ __volatile__("nop;jmp 1f;ud2;1: nop");
