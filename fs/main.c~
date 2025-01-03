@@ -144,7 +144,6 @@ PUBLIC void task_fs()
 		case FORK:
 		case EXIT:
 		case LSEEK: 
-		case KILL:
 		case STAT:
 			break;
 		case RESUME_PROC:
