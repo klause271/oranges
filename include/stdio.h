@@ -6,6 +6,7 @@
  * @date   2008
  *****************************************************************************
  *****************************************************************************/
+#define NULL ((void*)0)
 
 #ifndef	_ORANGES_STDIO_H_
 #define	_ORANGES_STDIO_H_
@@ -144,7 +145,8 @@ PUBLIC int	execv		(const char * path, char * argv[]);
 PUBLIC int	stat		(const char *path, struct stat *buf);
 
 /* lib/syslog.c */
-PUBLIC	int	syslog		(const char *fmt, ...);
+//实现日志功能后此项删除																				
+//PUBLIC	int	syslog		(const char *fmt, ...);
 
 PUBLIC  char*	slist		(char *path);
 PUBLIC  int	lseek		(int fd, int offset, int whence);

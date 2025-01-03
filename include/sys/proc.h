@@ -37,7 +37,7 @@ struct proc {
         int ticks;                 /* remained ticks */
         int priority;
 
-	/* u32 pid;                   /\* process id passed in from MM *\/ */
+	 u32 pid;                   /* process id passed in from MM */
 	char name[16];		   /* name of the process */
 
 	int  p_flags;              /**
@@ -79,8 +79,8 @@ struct task {
 #define proc2pid(x) (x - proc_table)
 
 /* Number of tasks & processes */
-#define NR_TASKS		5
-#define NR_PROCS		10
+#define NR_TASKS		7
+#define NR_PROCS		32
 #define NR_NATIVE_PROCS		4
 #define FIRST_PROC		proc_table[0]
 #define LAST_PROC		proc_table[NR_TASKS + NR_PROCS - 1]
@@ -108,14 +108,18 @@ struct task {
 #define STACK_SIZE_TESTA	STACK_SIZE_DEFAULT
 #define STACK_SIZE_TESTB	STACK_SIZE_DEFAULT
 #define STACK_SIZE_TESTC	STACK_SIZE_DEFAULT
+#define STACK_SIZE_LOG		STACK_SIZE_DEFAULT
+#define STACK_SIZE_SWITCH_LOG	STACK_SIZE_DEFAULT										  
 
 #define STACK_SIZE_TOTAL	(STACK_SIZE_TTY + \
 				STACK_SIZE_SYS + \
 				STACK_SIZE_HD + \
 				STACK_SIZE_FS + \
 				STACK_SIZE_MM + \
+				STACK_SIZE_LOG + \	  
 				STACK_SIZE_INIT + \
 				STACK_SIZE_TESTA + \
 				STACK_SIZE_TESTB + \
-				STACK_SIZE_TESTC)
+				STACK_SIZE_TESTC + \
+				STACK_SIZE_SWITCH_LOG)		  
 

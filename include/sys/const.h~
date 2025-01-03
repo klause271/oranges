@@ -44,12 +44,14 @@
 
 /* Process */
 #define SENDING   0x02	/* set when proc trying to send */
+
 #define RECEIVING 0x04	/* set when proc trying to recv */
 #define WAITING   0x08	/* set when proc waiting for the child to terminate */
 #define HANGING   0x10	/* set when proc exits without being waited by parent */
 #define FREE_SLOT 0x20	/* set when proc table entry is not used
-			 * (ok to allocated to a new process)
+		 * (ok to allocated to a new process)
 			 */
+
 
 /* TTY */
 #define NR_CONSOLES	3	/* consoles */
@@ -139,14 +141,16 @@
 #define TASK_HD		2
 #define TASK_FS		3
 #define TASK_MM		4
-#define INIT		5
+#define TASK_LOG	5
+#define TASK_FLUSH  6  // 新增日志刷新任务
+#define INIT		7  // 原有INIT序号后移		  
 #define ANY		(NR_TASKS + NR_PROCS + 10)
 #define NO_TASK		(NR_TASKS + NR_PROCS + 20)
 
 #define	MAX_TICKS	0x7FFFABCD
 
 /* system call */
-#define NR_SYS_CALL	3
+#define NR_SYS_CALL	4
 
 /* ipc */
 #define SEND		1
@@ -172,7 +176,7 @@ enum msgtype {
 	GET_TICKS, GET_PID, GET_RTC_TIME, XIA, GET_PROC_INFO, OK, KILL_PROC, ERROR,
 
 	/* FS */
-	OPEN, CLOSE, READ, WRITE, LSEEK, STAT, UNLINK, SEARCH,
+	OPEN, CLOSE, READ, WRITE, LSEEK, STAT, UNLINK, SEARCH, KILL,
 
 	/* FS & TTY */
 	SUSPEND_PROC, RESUME_PROC,
@@ -293,16 +297,29 @@ enum msgtype {
 
 #define	NR_DEFAULT_FILE_SECTS	2048 /* 2048 * 512 = 1MB */
 
+/* Log Levels */
+#define LOG_LEVEL_OFF      0
+#define LOG_LEVEL_ERROR    1  
+#define LOG_LEVEL_WARN     2
+#define LOG_LEVEL_INFO     3
+#define LOG_LEVEL_DEBUG    4
+#define LOG_LEVEL_TRACE    5
+#define INT_NULL 0
+#define true 1
+#define false 0
 
+/* Log Categories */
+#define LOG_CAT_ERROR     (1 << 0)  /* 错误日志 */
+#define LOG_CAT_SYSTEM    (1 << 1)  /* 系统相关日志 */
+#define LOG_CAT_PROCESS   (1 << 2)  /* 进程相关日志 */
+#define LOG_CAT_MEMORY    (1 << 3)  /* 内存相关日志 */
+#define LOG_CAT_FS        (1 << 4)  /* 文件系统日志 */
+#define LOG_CAT_DEVICE    (1 << 5)  /* 设备相关日志 */
+
+#define LOG_MESSAGE    8
+
+/* Log Return Values */
+#define LOG_SUCCESS    0   /* 日志写入成功 */
+#define LOG_FAILED    -1   /* 日志写入失败 */				
 
 #endif /* _ORANGES_CONST_H_ */
-
-//日志
-#define LOG_LEVEL_DEBUG    0x01
-#define LOG_LEVEL_INFO     0x02
-#define LOG_LEVEL_WARNING  0x04
-#define LOG_LEVEL_ERROR    0x08
-
-#define LOG_ALL           0x0F
-
-extern int log_level; // 全局日志级别开关
