@@ -2,8 +2,8 @@
 #include<string.h>
 
 int main(int argc, char *argv[]){
-    char num[4][32] = {"2021302181189","2021302181075","2021302191707","2021302191289"};
-    char name[4][32] = {"zhanxuan","Liuweifeng","Duankaiwen","Fuyankai"};
+    char num[2][32] = {"2022302181189","2022302181191"};
+    char name[2][32] = {"zhanxuan","wanliwei"};
 
 int i;
     for (i = 0; i < 4 ; i++) {

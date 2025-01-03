@@ -7,7 +7,6 @@ void main(int argc, char * argv[])
 	while(1)
 	{
 		printf("-");
-		i++;
 		if(i == 120)
 			return;
 	}

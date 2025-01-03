@@ -1,71 +1,27 @@
-#include "type.h"
 #include "stdio.h"
 #include "string.h"
-#include "sys/const.h"
-#include "sys/protect.h"
-#include "sys/fs.h"
-#include "sys/proc.h"
-#include "sys/tty.h"
-#include "sys/console.h"
-#include "sys/global.h"
-#include "sys/proto.h"
 
-int my_atoi(const char* str) {
-    int result = 0;
-    int sign = 1;
-
-    // 跳过空白字符
-    while (*str == ' ' || *str == '\t' || *str == '\n') {
-        str++;
+int equal(char* a, char* b)
+{
+    int i = 0;
+    int is_equal = 1;
+    if (strlen(a) != strlen(b)) {
+        return 0;
     }
-
-    // 处理正负号
-    if (*str == '-') {
-        sign = -1;
-        str++;
-    } else if (*str == '+') {
-        str++;
+    for (i = 0; i < strlen(a); i++) {
+        if (a[i] != b[i]) {
+            is_equal = 0;
+            break;
+        }
     }
-
-    // 转换数字部分
-    while (*str >= '0' && *str <= '9') {
-        result = result * 10 + (*str - '0');
-        str++;
-    }
-
-    return sign * result;
+    return is_equal;
 }
-
 
 int main(int args, char* argv[]) {
-    if (args != 2) {
-        // 检查参数数量
-        printf("Usage: kill <PID>\n");
-        return 1;
-    }
-
-    int pid = my_atoi(argv[1]); // 将参数转换为整数
-    if (pid < NR_TASKS || pid >= NR_TASKS + NR_PROCS) {
-        // 检查PID是否合法
-        printf("Invalid PID: %d\n", pid);
-        return 1;
-    }
-
-    // 准备消息
-    MESSAGE msg;
-    msg.PID = pid;
-    msg.type = KILL_PROC;
-
-    // 发送消息给系统任务模块
-    send_recv(BOTH, TASK_SYS, &msg);
-
-    // 检查返回值
-    if (msg.type == OK) {
-        printf("Process %d terminated successfully.\n", pid);
+    if (equal(argv[1], "TTY") || equal(argv[1], "SYS") || equal(argv[1], "HD") || equal(argv[1], "FS") || equal(argv[1], "MM") || equal(argv[1], "INIT") || equal(argv[1], "TestB") || equal(argv[1], "TestC")) {
+        printf("%s can't be killed.\n", argv[1]);
     } else {
-        printf("Failed to terminate process %d. Error code: %d\n", pid, msg.type);
+        kill(argv[1]);
     }
-
     return 0;
 }
-

@@ -10,11 +10,11 @@ LD		= ld
 #ASMFLAGS	= -I ../include/ -f elf
 #CFLAGS		= -I ../include/ -c -fno-builtin -fno-stack-protector -Wall
 ASMFLAGS	= -I ../include/ -I ../include/sys/ -f elf
-CFLAGS		= -I ../include/ -I ../include/sys/ -c -fno-builtin -fno-stack-protector -Wall
+CFLAGS		= -I ../include/ -I ../include/sys/ -c -fno-builtin -fno-stack-protector -std=gnu99 -Wall
 LDFLAGS		= -Ttext 0x1000
 DASMFLAGS	= -D
 LIB		= ../lib/orangescrt.a
-BIN		= touch rm help echo pwd game calc test1 test2 ps ls cat kill
+BIN		= touch rm help echo pwd game calc test1 test2 ps ls cat kill mylog attack1 attack2 attack3
 
 # All Phony Targets
 .PHONY : everything final clean realclean disasm all install ps
@@ -125,4 +125,28 @@ kill.o: kill.c ../include/type.h ../include/stdio.h
 	$(CC) $(CFLAGS) -o $@ $<
 
 kill : kill.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?
+
+attack1.o: attack1.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+
+attack1 : attack1.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?
+
+attack2.o: attack2.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+
+attack2 : attack2.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?
+
+attack3.o: attack3.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+
+attack3 : attack3.o start.o $(LIB)
+	$(LD) $(LDFLAGS) -o $@ $?
+
+mylog.o: mylog.c ../include/type.h ../include/stdio.h
+	$(CC) $(CFLAGS) -o $@ $<
+
+mylog : mylog.o start.o $(LIB)
 	$(LD) $(LDFLAGS) -o $@ $?
