@@ -1,0 +1,237 @@
+    8034
+                                                      
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:18>
+Process switch: SYS(PID:1) -> HD(PID:2)
+ <2024-12-19 23:04:18>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:18>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:18>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:20>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:20>
+Process switch: TestC(PID:10) -> HD(PID:2)
+ <2024-12-19 23:04:21>
+Process switch: HD(PID:2) -> HD(PID:2)
+ <2024-12-19 23:04:21>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:21>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:23>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:04:23>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:24>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:24>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:04:24>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:26>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:27>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:04:27>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:27>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:27>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:04:29>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:30>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:30>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:04:30>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:30>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:32>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:04:33>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:33>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:33>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:04:33>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:35>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:36>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:04:36>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:36>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:36>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:04:38>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:39>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:39>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:04:39>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:39>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:41>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:04:42>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:42>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:42>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:04:42>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:44>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:45>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:04:45>
+Process switch: LOG(PID:5) -> LOG(PID:5)
+ <2024-12-19 23:04:45>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:45>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:04:47>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:48>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:48>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:04:48>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:48>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:50>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:04:51>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:51>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:51>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:04:51>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:54>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:54>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:04:54>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:54>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:54>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:04:56>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:57>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:04:57>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:04:57>
+Process switch: SYS(PID:1) -> LOG(PID:5)
+ <2024-12-19 23:04:57>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:04:59>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:00>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:05:00>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:00>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:00>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:05:02>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:03>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:03>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:05:03>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:03>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:05>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:05:06>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:06>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:06>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:05:06>
+Process switch: LOG(PID:5) -> LOG(PID:5)
+ <2024-12-19 23:05:08>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:09>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:09>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:05:09>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:09>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:11>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:05:12>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:12>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:12>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:05:12>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:14>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:15>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:05:15>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:15>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:15>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:05:17>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:17>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:18>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:05:18>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:18>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:20>
+Process switch: TestC(PID:10) -> SYS(PID:1)
+ <2024-12-19 23:05:20>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:21>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:21>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:05:21>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:05:23>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:23>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:23>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:05:24>
+Process switch: TestA(PID:8) -> TestB(PID:9)
+ <2024-12-19 23:05:24>
+Process switch: TestB(PID:9) -> TestC(PID:10)
+ <2024-12-19 23:05:26>
+Process switch: TestC(PID:10) -> FLUSH(PID:6)
+ <2024-12-19 23:05:26>
+Process switch: HD(PID:2) -> HD(PID:2)
+ <2024-12-19 23:05:27>
+
